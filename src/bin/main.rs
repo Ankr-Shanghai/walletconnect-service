@@ -23,7 +23,8 @@ async fn main() {
         format!("{}:{}", args.host, args.port)
     );
 
-    let app_state: Arc<pkg::config::AppState> = Arc::new(pkg::config::AppState {});
+    let state = pkg::config::init(args.redis);
+    let state: Arc<pkg::config::AppState> = Arc::new(state);
 
     // build application with a route
     let app = Router::new()
@@ -32,7 +33,7 @@ async fn main() {
         .route("/health", get(pkg::handler::health::handler))
         .route("/info", get(pkg::handler::info::handler))
         .route("/subscribe", post(pkg::handler::subscribe::handler))
-        .with_state(app_state);
+        .with_state(state);
 
     let host = args.host.parse::<IpAddr>().unwrap_or_else(|err| {
         error!("host {} error {} ", args.host, err);
@@ -64,4 +65,6 @@ struct Args {
     host: String,
     #[arg(short, long, default_value_t = 5200)]
     port: u16,
+    #[arg(long, default_value = "redis://127.0.0.1:6379/")]
+    redis: String,
 }

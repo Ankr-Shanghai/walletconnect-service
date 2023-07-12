@@ -12,3 +12,7 @@
 2023-07-12 17:09:37 - start server with 127.0.0.1:5200 ...
 2023-07-12 17:09:47 - subscribe handler
 2023-07-12 17:09:47 - req: SubReq { topic: "hello", webhook: "webhook" }
+2023-07-12 22:55:42 - start server with 127.0.0.1:5200 ...
+2023-07-12 22:55:49 - subscribe handler
+2023-07-12 22:55:49 - req: SubReq { topic: "hello", webhook: "webhook" }
+2023-07-12 22:55:49 - val: "world"
