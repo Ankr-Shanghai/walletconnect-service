@@ -3,12 +3,21 @@ appenders:
   stdout:
     kind: console
     encoder:
-      pattern: "{d(%Y-%m-%d %H:%M:%S)} - {m}{n}"
+      pattern: "{d(%Y-%m-%d %H:%M:%S)} {f}:{L} {l} - {m}{n}"
   requests:
     kind: file
     path: "logs/log.log"
     encoder:
-      pattern: "{d(%Y-%m-%d %H:%M:%S)} - {m}{n}"
+      pattern: "{d(%Y-%m-%d %H:%M:%S)} {f}:{L} {l} - {m}{n}"
+    policy:
+      trigger:
+        kind: size
+        limit: 5 mb
+      roller:
+        kind: fixed_window
+        pattern: logs/step/step_{}.gz
+        count: 5
+        base: 1
 root:
   level: info
   appenders:
