@@ -3,3 +3,55 @@
 2023-07-13 12:07:55 src/pkg/handler/subscribe.rs:20 INFO - subscribe handler
 2023-07-13 12:07:55 src/pkg/handler/subscribe.rs:21 INFO - req: SubReq { topic: "hello", webhook: "webhook" }
 2023-07-13 12:07:55 src/pkg/handler/subscribe.rs:27 INFO - save webhook into cache success
+2023-07-13 14:50:56 src/bin/main.rs:21 INFO - start server with 127.0.0.1:5200 ...
+2023-07-13 14:52:58 src/pkg/handler/subscribe.rs:20 INFO - subscribe handler
+2023-07-13 14:52:58 src/pkg/handler/subscribe.rs:21 INFO - req: SubReq { topic: "hello", webhook: "webhook" }
+2023-07-13 14:52:58 src/pkg/handler/subscribe.rs:33 ERROR - get redis connection error
+2023-07-13 14:53:06 src/pkg/handler/subscribe.rs:20 INFO - subscribe handler
+2023-07-13 14:53:06 src/pkg/handler/subscribe.rs:21 INFO - req: SubReq { topic: "hello", webhook: "webhook" }
+2023-07-13 14:53:06 src/pkg/handler/subscribe.rs:27 INFO - save webhook into cache success
+2023-07-13 14:58:46 src/bin/main.rs:21 INFO - start server with 127.0.0.1:5200 ...
+2023-07-13 15:02:10 src/bin/main.rs:21 INFO - start server with 127.0.0.1:5200 ...
+2023-07-13 15:05:09 src/bin/main.rs:21 INFO - start server with 127.0.0.1:5200 ...
+2023-07-13 15:18:32 src/bin/main.rs:21 INFO - start server with 127.0.0.1:5200 ...
+2023-07-13 15:18:36 src/pkg/handler/websocket.rs:20 INFO - websocket handler
+2023-07-13 15:18:36 src/pkg/handler/websocket.rs:27 INFO - `Unknown Accessor` at 127.0.0.1:33574 connected.
+2023-07-13 15:18:36 src/pkg/handler/websocket.rs:46 INFO - Websocket context 127.0.0.1:33574 destroyed
+2023-07-13 15:23:07 src/bin/main.rs:21 INFO - start server with 127.0.0.1:5200 ...
+2023-07-13 15:23:11 src/pkg/handler/websocket.rs:20 INFO - websocket handler
+2023-07-13 15:23:11 src/pkg/handler/websocket.rs:27 INFO - `Unknown Accessor` at 127.0.0.1:44444 connected.
+2023-07-13 15:23:11 src/pkg/handler/websocket.rs:46 INFO - Websocket context 127.0.0.1:44444 destroyed
+2023-07-13 15:24:19 src/bin/main.rs:21 INFO - start server with 127.0.0.1:5200 ...
+2023-07-13 15:24:22 src/pkg/handler/websocket.rs:20 INFO - websocket handler
+2023-07-13 15:24:22 src/pkg/handler/websocket.rs:27 INFO - `Unknown Accessor` at 127.0.0.1:40318 connected.
+2023-07-13 15:24:22 src/pkg/handler/websocket.rs:44 INFO - Websocket context 127.0.0.1:40318 destroyed
+2023-07-13 15:25:05 src/pkg/handler/websocket.rs:20 INFO - websocket handler
+2023-07-13 15:25:05 src/pkg/handler/websocket.rs:27 INFO - `Unknown Accessor` at 127.0.0.1:59210 connected.
+2023-07-13 15:25:05 src/pkg/handler/websocket.rs:44 INFO - Websocket context 127.0.0.1:59210 destroyed
+2023-07-13 15:25:26 src/pkg/handler/websocket.rs:20 INFO - websocket handler
+2023-07-13 15:25:26 src/pkg/handler/websocket.rs:27 INFO - `Unknown Accessor` at 127.0.0.1:39872 connected.
+2023-07-13 15:25:26 src/pkg/handler/websocket.rs:44 INFO - Websocket context 127.0.0.1:39872 destroyed
+2023-07-13 15:28:07 src/bin/main.rs:21 INFO - start server with 127.0.0.1:5200 ...
+2023-07-13 15:50:36 src/bin/main.rs:21 INFO - start server with 127.0.0.1:5200 ...
+2023-07-13 15:50:46 src/pkg/handler/websocket.rs:27 INFO - websocket handler
+2023-07-13 15:50:46 src/pkg/handler/websocket.rs:34 INFO - `Unknown Accessor` at 127.0.0.1:34748 connected.
+2023-07-13 15:50:52 src/pkg/handler/websocket.rs:108 INFO - Websocket context 127.0.0.1:34748 destroyed
+2023-07-13 15:52:09 src/bin/main.rs:21 INFO - start server with 127.0.0.1:5200 ...
+2023-07-13 15:52:15 src/pkg/handler/websocket.rs:27 INFO - websocket handler
+2023-07-13 15:52:15 src/pkg/handler/websocket.rs:34 INFO - `Unknown Accessor` at 127.0.0.1:51550 connected.
+2023-07-13 15:52:16 src/pkg/handler/websocket.rs:108 INFO - Websocket context 127.0.0.1:51550 destroyed
+2023-07-13 15:55:02 src/bin/main.rs:21 INFO - start server with 127.0.0.1:5200 ...
+2023-07-13 15:55:07 src/pkg/handler/websocket.rs:27 INFO - websocket handler
+2023-07-13 15:55:07 src/pkg/handler/websocket.rs:34 INFO - `Unknown Accessor` at 127.0.0.1:42902 connected.
+2023-07-13 15:56:43 src/bin/main.rs:21 INFO - start server with 127.0.0.1:5200 ...
+2023-07-13 15:57:12 src/pkg/handler/websocket.rs:27 INFO - websocket handler
+2023-07-13 15:57:12 src/pkg/handler/websocket.rs:34 INFO - `Unknown Accessor` at 127.0.0.1:45986 connected.
+2023-07-13 15:58:11 src/bin/main.rs:21 INFO - start server with 127.0.0.1:5200 ...
+2023-07-13 15:58:16 src/pkg/handler/websocket.rs:27 INFO - websocket handler
+2023-07-13 15:58:16 src/pkg/handler/websocket.rs:34 INFO - `Unknown Accessor` at 127.0.0.1:44828 connected.
+2023-07-13 16:01:54 src/bin/main.rs:21 INFO - start server with 127.0.0.1:5200 ...
+2023-07-13 16:01:58 src/pkg/handler/websocket.rs:27 INFO - websocket handler
+2023-07-13 16:01:58 src/pkg/handler/websocket.rs:34 INFO - `Unknown Accessor` at 127.0.0.1:52530 connected.
+2023-07-13 16:05:29 src/bin/main.rs:21 INFO - start server with 192.168.50.16:5200 ...
+2023-07-13 16:05:56 src/pkg/handler/websocket.rs:27 INFO - websocket handler
+2023-07-13 16:05:56 src/pkg/handler/websocket.rs:34 INFO - `Unknown Accessor` at 192.168.50.8:33798 connected.

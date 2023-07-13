@@ -11,7 +11,7 @@ name = "pkg"
 path = "src/pkg/lib.rs"
 
 [dependencies]
-axum = { version = "0.6.18" }
+axum = { version = "0.6.18", features = ["ws", "headers"] }
 tokio = { version = "1.29.1", features = ["full"] }
 log = { version = "0.4.19" }
 log4rs = { version = "1.2.0", features = ["all_components", "gzip"] }
@@ -19,3 +19,8 @@ clap = { version = "4.1.13", features = ["derive"] }
 serde = { version = "*", features = ["derive"] }
 serde_json = { version = "*" }
 redis = { version = "0.23.0" }
+futures = "0.3"
+futures-util = { version = "0.3", default-features = false, features = [
+	"sink",
+	"std",
+] }

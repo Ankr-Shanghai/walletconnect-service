@@ -4,7 +4,7 @@ use std::{
     sync::Arc,
 };
 
-use axum::{routing::get, routing::post, Router};
+use axum::{self, routing::get, routing::post, Router};
 use log::{error, info};
 
 #[tokio::main]
@@ -28,7 +28,9 @@ async fn main() {
 
     // build application with a route
     let app = Router::new()
-        // .route("/", post(pkg::router::router))
+        // websocket handler
+        .route("/", get(pkg::handler::websocket::handler))
+        // http handler
         .route("/hello", get(pkg::handler::hello::handler))
         .route("/health", get(pkg::handler::health::handler))
         .route("/info", get(pkg::handler::info::handler))
@@ -48,7 +50,7 @@ async fn main() {
     });
 
     bindr
-        .serve(app.into_make_service())
+        .serve(app.into_make_service_with_connect_info::<SocketAddr>())
         .await
         .unwrap_or_else(|err| {
             error!("service boot error {}", err);
