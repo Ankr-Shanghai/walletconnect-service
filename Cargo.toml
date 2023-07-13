@@ -2,6 +2,7 @@
 name = "walletconnect-service"
 version = "0.1.0"
 edition = "2021"
+author = "mobus <[sunsc0220@gmail.com protected]>"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
@@ -12,8 +13,8 @@ path = "src/pkg/lib.rs"
 [dependencies]
 axum = { version = "0.6.18" }
 tokio = { version = "1.29.1", features = ["full"] }
-log = { version = "*" }
-log4rs = "*"
+log = { version = "0.4.19" }
+log4rs = { version = "1.2.0", features = ["all_components", "gzip"] }
 clap = { version = "4.1.13", features = ["derive"] }
 serde = { version = "*", features = ["derive"] }
 serde_json = { version = "*" }

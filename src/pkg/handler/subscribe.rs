@@ -21,8 +21,9 @@ pub async fn handler(
     info!("req: {:?}", req);
 
     let reqs = serde_json::to_string(&req).unwrap();
+
     if let Ok(mut client) = app_state.client.get_connection() {
-        if let Ok(_) = client.set_ex::<String, String, usize>(req.topic, reqs, constant::TIMEOUT) {
+        if let Ok(1) = client.lpush(format!("{}:{}", constant::NOTIFICATION, req.topic), reqs) {
             info!("save webhook into cache success");
         } else {
             error!("save webhook into cahce failed");
