@@ -47,14 +47,21 @@ async fn handle_socket(mut socket: WebSocket, who: SocketAddr, app_state: Arc<Ap
     // Spawn a task that will push several messages to the client (does not matter what client does)
     let mut send_task = tokio::spawn(async move {
         // In case of any websocket error, we exit.
-        if sender
-            .send(Message::Text(format!("Server message hello ...")))
-            .await
-            .is_err()
-        {
-            return 1;
+        let mut interval = tokio::time::interval(std::time::Duration::from_secs(2));
+        loop {
+            interval.tick().await;
+            // ping remote client
+            let rs = sender.send(Message::Ping(vec![])).await;
+            match rs {
+                Ok(_) => {
+                    info!("send task to {} ping", who);
+                }
+                Err(e) => {
+                    error!("Websocket context {} send error: {}", who, e);
+                    break;
+                }
+            }
         }
-        1
     });
 
     // This second task will receive messages from client and print them on server console
@@ -73,17 +80,12 @@ async fn handle_socket(mut socket: WebSocket, who: SocketAddr, app_state: Arc<Ap
     loop {
         // If any one of the tasks exit, abort the other.
         tokio::select! {
-            rv_a = (&mut send_task) => {
-                match rv_a {
-                    Ok(a) => println!("{} messages sent to {}", a, who),
-                    Err(a) => println!("Error sending messages {:?}", a)
+            rs = (&mut recv_task) => {
+                match rs {
+                    Ok(cnt) => info!("Websocket context {} received {} messages", who, cnt),
+                    Err(e) => error!("Websocket context {} receive error: {}", who, e),
                 }
-            },
-            rv_b = (&mut recv_task) => {
-                match rv_b {
-                    Ok(b) => println!("Received {} messages", b),
-                    Err(b) => println!("Error receiving messages {:?}", b)
-                }
+                break;
             }
         }
     }
@@ -96,31 +98,31 @@ async fn handle_socket(mut socket: WebSocket, who: SocketAddr, app_state: Arc<Ap
 fn process_message(msg: Message, who: SocketAddr) -> ControlFlow<(), ()> {
     match msg {
         Message::Text(t) => {
-            println!(">>> {} sent str: {:?}", who, t);
+            info!(">>> {} sent str: {:?}", who, t);
         }
         Message::Binary(d) => {
-            println!(">>> {} sent {} bytes: {:?}", who, d.len(), d);
+            info!(">>> {} sent {} bytes: {:?}", who, d.len(), d);
         }
         Message::Close(c) => {
             if let Some(cf) = c {
-                println!(
+                info!(
                     ">>> {} sent close with code {} and reason `{}`",
                     who, cf.code, cf.reason
                 );
             } else {
-                println!(">>> {} somehow sent close message without CloseFrame", who);
+                info!(">>> {} somehow sent close message without CloseFrame", who);
             }
             return ControlFlow::Break(());
         }
 
         Message::Pong(v) => {
-            println!(">>> {} sent pong with {:?}", who, v);
+            info!(">>> {} sent pong with {:?}", who, v);
         }
         // You should never need to manually handle Message::Ping, as axum's websocket library
         // will do so for you automagically by replying with Pong and copying the v according to
         // spec. But if you need the contents of the pings you can see them here.
         Message::Ping(v) => {
-            println!(">>> {} sent ping with {:?}", who, v);
+            info!(">>> {} sent ping with {:?}", who, v);
         }
     }
     ControlFlow::Continue(())

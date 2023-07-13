@@ -55,3 +55,130 @@
 2023-07-13 16:05:29 src/bin/main.rs:21 INFO - start server with 192.168.50.16:5200 ...
 2023-07-13 16:05:56 src/pkg/handler/websocket.rs:27 INFO - websocket handler
 2023-07-13 16:05:56 src/pkg/handler/websocket.rs:34 INFO - `Unknown Accessor` at 192.168.50.8:33798 connected.
+2023-07-13 21:37:51 src/bin/main.rs:21 INFO - start server with 127.0.0.1:5200 ...
+2023-07-13 21:37:58 src/pkg/handler/websocket.rs:27 INFO - websocket handler
+2023-07-13 21:37:58 src/pkg/handler/websocket.rs:34 INFO - `Unknown Accessor` at 127.0.0.1:35396 connected.
+2023-07-13 21:51:43 src/bin/main.rs:21 INFO - start server with 127.0.0.1:5200 ...
+2023-07-13 21:51:48 src/pkg/handler/websocket.rs:27 INFO - websocket handler
+2023-07-13 21:51:48 src/pkg/handler/websocket.rs:34 INFO - `Unknown Accessor` at 127.0.0.1:45362 connected.
+2023-07-13 21:51:48 src/pkg/handler/websocket.rs:54 INFO - send task: 
+2023-07-13 21:51:50 src/pkg/handler/websocket.rs:54 INFO - send task: 
+2023-07-13 21:51:52 src/pkg/handler/websocket.rs:54 INFO - send task: 
+2023-07-13 21:51:54 src/pkg/handler/websocket.rs:54 INFO - send task: 
+2023-07-13 21:51:56 src/pkg/handler/websocket.rs:54 INFO - send task: 
+2023-07-13 21:51:58 src/pkg/handler/websocket.rs:54 INFO - send task: 
+2023-07-13 21:52:00 src/pkg/handler/websocket.rs:54 INFO - send task: 
+2023-07-13 21:52:02 src/pkg/handler/websocket.rs:54 INFO - send task: 
+2023-07-13 21:52:04 src/pkg/handler/websocket.rs:54 INFO - send task: 
+2023-07-13 21:52:06 src/pkg/handler/websocket.rs:54 INFO - send task: 
+2023-07-13 21:52:08 src/pkg/handler/websocket.rs:54 INFO - send task: 
+2023-07-13 21:52:10 src/pkg/handler/websocket.rs:54 INFO - send task: 
+2023-07-13 21:52:12 src/pkg/handler/websocket.rs:54 INFO - send task: 
+2023-07-13 21:52:14 src/pkg/handler/websocket.rs:54 INFO - send task: 
+2023-07-13 21:52:16 src/pkg/handler/websocket.rs:54 INFO - send task: 
+2023-07-13 21:53:39 src/bin/main.rs:21 INFO - start server with 127.0.0.1:5200 ...
+2023-07-13 21:53:44 src/pkg/handler/websocket.rs:27 INFO - websocket handler
+2023-07-13 21:53:44 src/pkg/handler/websocket.rs:34 INFO - `Unknown Accessor` at 127.0.0.1:33864 connected.
+2023-07-13 21:53:44 src/pkg/handler/websocket.rs:55 INFO - send task: 
+2023-07-13 21:53:46 src/pkg/handler/websocket.rs:55 INFO - send task: 
+2023-07-13 21:53:48 src/pkg/handler/websocket.rs:55 INFO - send task: 
+2023-07-13 21:53:50 src/pkg/handler/websocket.rs:55 INFO - send task: 
+2023-07-13 21:53:52 src/pkg/handler/websocket.rs:55 INFO - send task: 
+2023-07-13 21:53:54 src/pkg/handler/websocket.rs:55 INFO - send task: 
+2023-07-13 21:53:56 src/pkg/handler/websocket.rs:55 INFO - send task: 
+2023-07-13 21:53:58 src/pkg/handler/websocket.rs:55 INFO - send task: 
+2023-07-13 21:54:00 src/pkg/handler/websocket.rs:55 INFO - send task: 
+2023-07-13 21:54:02 src/pkg/handler/websocket.rs:55 INFO - send task: 
+2023-07-13 21:54:04 src/pkg/handler/websocket.rs:55 INFO - send task: 
+2023-07-13 21:54:06 src/pkg/handler/websocket.rs:55 INFO - send task: 
+2023-07-13 21:54:08 src/pkg/handler/websocket.rs:55 INFO - send task: 
+2023-07-13 21:54:10 src/pkg/handler/websocket.rs:55 INFO - send task: 
+2023-07-13 21:54:12 src/pkg/handler/websocket.rs:55 INFO - send task: 
+2023-07-13 21:54:14 src/pkg/handler/websocket.rs:55 INFO - send task: 
+2023-07-13 21:54:16 src/pkg/handler/websocket.rs:55 INFO - send task: 
+2023-07-13 21:54:18 src/pkg/handler/websocket.rs:55 INFO - send task: 
+2023-07-13 21:54:20 src/pkg/handler/websocket.rs:55 INFO - send task: 
+2023-07-13 21:54:22 src/pkg/handler/websocket.rs:55 INFO - send task: 
+2023-07-13 21:54:24 src/pkg/handler/websocket.rs:55 INFO - send task: 
+2023-07-13 21:54:26 src/pkg/handler/websocket.rs:55 INFO - send task: 
+2023-07-13 21:54:28 src/pkg/handler/websocket.rs:55 INFO - send task: 
+2023-07-13 21:54:30 src/pkg/handler/websocket.rs:55 INFO - send task: 
+2023-07-13 21:54:30 src/pkg/handler/websocket.rs:77 INFO - Websocket context 127.0.0.1:33864 received 25 messages
+2023-07-13 21:54:32 src/pkg/handler/websocket.rs:55 INFO - send task: 
+2023-07-13 21:54:34 src/pkg/handler/websocket.rs:55 INFO - send task: 
+2023-07-13 21:54:36 src/pkg/handler/websocket.rs:55 INFO - send task: 
+2023-07-13 21:54:38 src/pkg/handler/websocket.rs:55 INFO - send task: 
+2023-07-13 21:54:40 src/pkg/handler/websocket.rs:55 INFO - send task: 
+2023-07-13 21:54:42 src/pkg/handler/websocket.rs:55 INFO - send task: 
+2023-07-13 21:54:44 src/pkg/handler/websocket.rs:55 INFO - send task: 
+2023-07-13 21:54:46 src/pkg/handler/websocket.rs:55 INFO - send task: 
+2023-07-13 21:54:48 src/pkg/handler/websocket.rs:55 INFO - send task: 
+2023-07-13 21:54:50 src/pkg/handler/websocket.rs:55 INFO - send task: 
+2023-07-13 21:54:52 src/pkg/handler/websocket.rs:55 INFO - send task: 
+2023-07-13 21:54:52 src/pkg/handler/websocket.rs:27 INFO - websocket handler
+2023-07-13 21:54:52 src/pkg/handler/websocket.rs:34 INFO - `Unknown Accessor` at 127.0.0.1:52266 connected.
+2023-07-13 21:54:52 src/pkg/handler/websocket.rs:55 INFO - send task: 
+2023-07-13 21:54:54 src/pkg/handler/websocket.rs:55 INFO - send task: 
+2023-07-13 21:54:54 src/pkg/handler/websocket.rs:55 INFO - send task: 
+2023-07-13 21:54:56 src/pkg/handler/websocket.rs:55 INFO - send task: 
+2023-07-13 21:54:56 src/pkg/handler/websocket.rs:55 INFO - send task: 
+2023-07-13 21:54:58 src/pkg/handler/websocket.rs:55 INFO - send task: 
+2023-07-13 21:54:58 src/pkg/handler/websocket.rs:55 INFO - send task: 
+2023-07-13 21:55:00 src/pkg/handler/websocket.rs:55 INFO - send task: 
+2023-07-13 21:55:00 src/pkg/handler/websocket.rs:55 INFO - send task: 
+2023-07-13 21:55:02 src/pkg/handler/websocket.rs:55 INFO - send task: 
+2023-07-13 21:55:02 src/pkg/handler/websocket.rs:55 INFO - send task: 
+2023-07-13 21:55:03 src/pkg/handler/websocket.rs:77 INFO - Websocket context 127.0.0.1:52266 received 6 messages
+2023-07-13 21:55:04 src/pkg/handler/websocket.rs:55 INFO - send task: 
+2023-07-13 21:55:04 src/pkg/handler/websocket.rs:55 INFO - send task: 
+2023-07-13 21:55:06 src/pkg/handler/websocket.rs:55 INFO - send task: 
+2023-07-13 21:55:06 src/pkg/handler/websocket.rs:55 INFO - send task: 
+2023-07-13 21:55:08 src/pkg/handler/websocket.rs:55 INFO - send task: 
+2023-07-13 21:55:08 src/pkg/handler/websocket.rs:55 INFO - send task: 
+2023-07-13 21:55:10 src/pkg/handler/websocket.rs:55 INFO - send task: 
+2023-07-13 21:55:10 src/pkg/handler/websocket.rs:55 INFO - send task: 
+2023-07-13 21:55:12 src/pkg/handler/websocket.rs:55 INFO - send task: 
+2023-07-13 21:55:12 src/pkg/handler/websocket.rs:55 INFO - send task: 
+2023-07-13 21:55:14 src/pkg/handler/websocket.rs:55 INFO - send task: 
+2023-07-13 21:55:14 src/pkg/handler/websocket.rs:55 INFO - send task: 
+2023-07-13 21:55:16 src/pkg/handler/websocket.rs:55 INFO - send task: 
+2023-07-13 21:55:16 src/pkg/handler/websocket.rs:55 INFO - send task: 
+2023-07-13 21:55:18 src/pkg/handler/websocket.rs:55 INFO - send task: 
+2023-07-13 21:55:18 src/pkg/handler/websocket.rs:55 INFO - send task: 
+2023-07-13 21:55:20 src/pkg/handler/websocket.rs:55 INFO - send task: 
+2023-07-13 21:55:20 src/pkg/handler/websocket.rs:55 INFO - send task: 
+2023-07-13 21:55:22 src/pkg/handler/websocket.rs:55 INFO - send task: 
+2023-07-13 21:55:22 src/pkg/handler/websocket.rs:55 INFO - send task: 
+2023-07-13 21:56:55 src/bin/main.rs:21 INFO - start server with 127.0.0.1:5200 ...
+2023-07-13 21:56:59 src/pkg/handler/websocket.rs:27 INFO - websocket handler
+2023-07-13 21:56:59 src/pkg/handler/websocket.rs:34 INFO - `Unknown Accessor` at 127.0.0.1:38926 connected.
+2023-07-13 21:56:59 src/pkg/handler/websocket.rs:55 INFO - send task to 127.0.0.1:38926 ping
+2023-07-13 21:57:01 src/pkg/handler/websocket.rs:55 INFO - send task to 127.0.0.1:38926 ping
+2023-07-13 21:57:03 src/pkg/handler/websocket.rs:55 INFO - send task to 127.0.0.1:38926 ping
+2023-07-13 21:57:05 src/pkg/handler/websocket.rs:55 INFO - send task to 127.0.0.1:38926 ping
+2023-07-13 21:57:07 src/pkg/handler/websocket.rs:55 INFO - send task to 127.0.0.1:38926 ping
+2023-07-13 21:57:09 src/pkg/handler/websocket.rs:55 INFO - send task to 127.0.0.1:38926 ping
+2023-07-13 21:57:11 src/pkg/handler/websocket.rs:55 INFO - send task to 127.0.0.1:38926 ping
+2023-07-13 21:57:11 src/pkg/handler/websocket.rs:77 INFO - Websocket context 127.0.0.1:38926 received 7 messages
+2023-07-13 21:57:13 src/pkg/handler/websocket.rs:55 INFO - send task to 127.0.0.1:38926 ping
+2023-07-13 21:57:15 src/pkg/handler/websocket.rs:55 INFO - send task to 127.0.0.1:38926 ping
+2023-07-13 21:57:17 src/pkg/handler/websocket.rs:55 INFO - send task to 127.0.0.1:38926 ping
+2023-07-13 21:57:19 src/pkg/handler/websocket.rs:55 INFO - send task to 127.0.0.1:38926 ping
+2023-07-13 21:57:21 src/pkg/handler/websocket.rs:55 INFO - send task to 127.0.0.1:38926 ping
+2023-07-13 21:57:23 src/pkg/handler/websocket.rs:55 INFO - send task to 127.0.0.1:38926 ping
+2023-07-13 21:57:25 src/pkg/handler/websocket.rs:55 INFO - send task to 127.0.0.1:38926 ping
+2023-07-13 21:57:27 src/pkg/handler/websocket.rs:55 INFO - send task to 127.0.0.1:38926 ping
+2023-07-13 21:57:29 src/pkg/handler/websocket.rs:55 INFO - send task to 127.0.0.1:38926 ping
+2023-07-13 21:57:31 src/pkg/handler/websocket.rs:55 INFO - send task to 127.0.0.1:38926 ping
+2023-07-13 21:57:33 src/pkg/handler/websocket.rs:55 INFO - send task to 127.0.0.1:38926 ping
+2023-07-13 21:57:35 src/pkg/handler/websocket.rs:55 INFO - send task to 127.0.0.1:38926 ping
+2023-07-13 21:58:53 src/bin/main.rs:21 INFO - start server with 127.0.0.1:5200 ...
+2023-07-13 21:58:57 src/pkg/handler/websocket.rs:27 INFO - websocket handler
+2023-07-13 21:58:57 src/pkg/handler/websocket.rs:34 INFO - `Unknown Accessor` at 127.0.0.1:43528 connected.
+2023-07-13 21:58:57 src/pkg/handler/websocket.rs:57 INFO - send task to 127.0.0.1:43528 ping
+2023-07-13 21:58:59 src/pkg/handler/websocket.rs:57 INFO - send task to 127.0.0.1:43528 ping
+2023-07-13 21:59:01 src/pkg/handler/websocket.rs:57 INFO - send task to 127.0.0.1:43528 ping
+2023-07-13 21:59:03 src/pkg/handler/websocket.rs:57 INFO - send task to 127.0.0.1:43528 ping
+2023-07-13 21:59:05 src/pkg/handler/websocket.rs:57 INFO - send task to 127.0.0.1:43528 ping
+2023-07-13 21:59:07 src/pkg/handler/websocket.rs:85 INFO - Websocket context 127.0.0.1:43528 received 5 messages
+2023-07-13 21:59:07 src/pkg/handler/websocket.rs:60 ERROR - Websocket context 127.0.0.1:43528 send error: Connection closed normally
