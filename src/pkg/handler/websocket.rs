@@ -1,4 +1,6 @@
-#![allow(unused_imports, unused_variables, unused_mut)]
+#![allow(unused_imports, unused_variables, unused_mut, dead_code)]
+use crate::constant;
+
 use super::super::config::AppState;
 use axum::{
     extract::{
@@ -9,6 +11,7 @@ use axum::{
     response::IntoResponse,
     TypedHeader,
 };
+use redis::Commands;
 use std::borrow::Cow;
 use std::ops::ControlFlow;
 use std::sync::Arc;
@@ -24,53 +27,52 @@ pub async fn handler(
     ConnectInfo(addr): ConnectInfo<SocketAddr>,
     State(app_state): State<Arc<AppState>>,
 ) -> impl IntoResponse {
-    info!("websocket handler");
-
     let user_agent = if let Some(TypedHeader(user_agent)) = user_agent {
         user_agent.to_string()
     } else {
         String::from("Unknown Accessor")
     };
     info!("`{user_agent}` at {addr} connected.");
-    // finalize the upgrade process by returning upgrade callback.
-    // we can customize the callback by sending additional info such as address.
     ws.on_upgrade(move |socket| handle_socket(socket, addr, app_state))
 }
 
+use std::time::Duration;
+use tokio::sync::mpsc;
+use tokio::time;
 // Actual websocket statemachine (one will be spawned per connection)
 async fn handle_socket(mut socket: WebSocket, who: SocketAddr, app_state: Arc<AppState>) {
-    // By splitting socket we can send and receive at the same time. In this example we will send
-    // unsolicited messages to client based on some sort of server's internal event (i.e .timer).
+    let (tx, mut rx) = mpsc::channel::<String>(32);
+    app_state.save_send_channel(who.to_string(), tx);
 
     let (mut sender, mut receiver) = socket.split();
-
-    // Spawn a task that will push several messages to the client (does not matter what client does)
     let mut send_task = tokio::spawn(async move {
-        // In case of any websocket error, we exit.
-        let mut interval = tokio::time::interval(std::time::Duration::from_secs(2));
+        let mut interval = time::interval(Duration::from_secs(1));
         loop {
-            interval.tick().await;
-            // ping remote client
-            let rs = sender.send(Message::Ping(vec![])).await;
-            match rs {
-                Ok(_) => {
-                    info!("send task to {} ping", who);
+            tokio::select! {
+                _ = interval.tick() => {
+                    if let Err(e) = sender.send(Message::Ping(vec![])).await {
+                        error!("from {} send error: {}", who, e);
+                        break;
+                    }
                 }
-                Err(e) => {
-                    error!("Websocket context {} send error: {}", who, e);
-                    break;
+                Some(msg) = rx.recv() => {
+                    if let Err(e) = sender.send(Message::Text(msg)).await {
+                        error!("from {} send error: {}", who, e);
+                        break;
+                    }
                 }
             }
         }
     });
 
+    let rx_state = app_state.clone();
     // This second task will receive messages from client and print them on server console
     let mut recv_task = tokio::spawn(async move {
         let mut cnt = 0;
         while let Some(Ok(msg)) = receiver.next().await {
             cnt += 1;
             // print message and break if instructed to do so
-            if process_message(msg, who).is_break() {
+            if process_message(msg, who, rx_state.clone()).is_break() {
                 break;
             }
         }
@@ -78,52 +80,72 @@ async fn handle_socket(mut socket: WebSocket, who: SocketAddr, app_state: Arc<Ap
     });
 
     loop {
-        // If any one of the tasks exit, abort the other.
         tokio::select! {
             rs = (&mut recv_task) => {
                 match rs {
-                    Ok(cnt) => info!("Websocket context {} received {} messages", who, cnt),
-                    Err(e) => error!("Websocket context {} receive error: {}", who, e),
+                    Ok(cnt) => info!("from {} received {} messages", who, cnt),
+                    Err(e) => error!("from {} receive error: {}", who, e),
                 }
                 break;
             }
+
         }
     }
 
-    // returning from the handler closes the websocket connection
-    // info!("Websocket context {} destroyed", who);
+    info!("remote connect {} destroyed", who);
 }
 
+use super::msg;
 /// helper to print contents of messages to stdout. Has special treatment for Close.
-fn process_message(msg: Message, who: SocketAddr) -> ControlFlow<(), ()> {
+fn process_message(msg: Message, who: SocketAddr, app_state: Arc<AppState>) -> ControlFlow<(), ()> {
     match msg {
         Message::Text(t) => {
-            info!(">>> {} sent str: {:?}", who, t);
+            info!("from {} message: {}", who, t);
+            let msgt: Result<msg::WalletMessage, serde_json::Error> = serde_json::from_str(&t);
+            if let Ok(msg) = msgt {
+                match msg.kind {
+                    msg::MessageKind::Pub => pub_handler(msg, app_state.clone()),
+                    msg::MessageKind::Sub => sub_handler(msg, app_state.clone()),
+                }
+            } else {
+                error!("from {} sent invalid message: {}", who, t)
+            }
         }
+
         Message::Binary(d) => {
-            info!(">>> {} sent {} bytes: {:?}", who, d.len(), d);
+            info!("from {} sent {} bytes", who, d.len());
         }
+
         Message::Close(c) => {
             if let Some(cf) = c {
                 info!(
-                    ">>> {} sent close with code {} and reason `{}`",
+                    "from {} sent close with code {} and reason `{}`",
                     who, cf.code, cf.reason
                 );
             } else {
-                info!(">>> {} somehow sent close message without CloseFrame", who);
+                info!("from {} somehow sent close message without CloseFrame", who);
             }
             return ControlFlow::Break(());
         }
 
-        Message::Pong(v) => {
-            info!(">>> {} sent pong with {:?}", who, v);
-        }
-        // You should never need to manually handle Message::Ping, as axum's websocket library
-        // will do so for you automagically by replying with Pong and copying the v according to
-        // spec. But if you need the contents of the pings you can see them here.
-        Message::Ping(v) => {
-            info!(">>> {} sent ping with {:?}", who, v);
-        }
+        Message::Pong(v) => {}
+
+        Message::Ping(v) => {}
     }
     ControlFlow::Continue(())
 }
+
+fn pub_handler(msg: msg::WalletMessage, app_state: Arc<AppState>) {
+    if let Ok(mut conn) = app_state.client.get_connection() {
+        let topic = msg.topic.clone();
+        if let Ok(1) = conn.lpush(topic.clone(), msg) {
+            info!("publish message to topic: {}", topic);
+        } else {
+            error!("failed to publish message to topic: {}", topic);
+        }
+    } else {
+        error!("failed to get redis connection")
+    }
+}
+
+fn sub_handler(msg: msg::WalletMessage, app_state: Arc<AppState>) {}
