@@ -11,6 +11,7 @@ use axum::{
     response::IntoResponse,
     TypedHeader,
 };
+use log4rs::append::Append;
 use redis::Commands;
 use std::borrow::Cow;
 use std::ops::ControlFlow;
@@ -41,8 +42,8 @@ use tokio::sync::mpsc;
 use tokio::time;
 // Actual websocket statemachine (one will be spawned per connection)
 async fn handle_socket(mut socket: WebSocket, who: SocketAddr, app_state: Arc<AppState>) {
-    let (tx, mut rx) = mpsc::channel::<String>(32);
-    app_state.save_send_channel(who.to_string(), tx);
+    let (tx, mut rx) = mpsc::channel::<String>(8);
+    app_state.save_send_channel(who.to_string(), tx).await;
 
     let (mut sender, mut receiver) = socket.split();
     let mut send_task = tokio::spawn(async move {
@@ -72,7 +73,7 @@ async fn handle_socket(mut socket: WebSocket, who: SocketAddr, app_state: Arc<Ap
         while let Some(Ok(msg)) = receiver.next().await {
             cnt += 1;
             // print message and break if instructed to do so
-            if process_message(msg, who, rx_state.clone()).is_break() {
+            if process_message(msg, who, rx_state.clone()).await.is_break() {
                 break;
             }
         }
@@ -92,20 +93,29 @@ async fn handle_socket(mut socket: WebSocket, who: SocketAddr, app_state: Arc<Ap
         }
     }
 
+    app_state.remove_send_channel(who.to_string()).await;
+    app_state.remove_sub(who.to_string()).await;
+
     info!("remote connect {} destroyed", who);
 }
 
 use super::msg;
 /// helper to print contents of messages to stdout. Has special treatment for Close.
-fn process_message(msg: Message, who: SocketAddr, app_state: Arc<AppState>) -> ControlFlow<(), ()> {
+async fn process_message(
+    msg: Message,
+    who: SocketAddr,
+    app_state: Arc<AppState>,
+) -> ControlFlow<(), ()> {
     match msg {
         Message::Text(t) => {
             info!("from {} message: {}", who, t);
             let msgt: Result<msg::WalletMessage, serde_json::Error> = serde_json::from_str(&t);
             if let Ok(msg) = msgt {
                 match msg.kind {
-                    msg::MessageKind::Pub => pub_handler(msg, app_state.clone()),
-                    msg::MessageKind::Sub => sub_handler(msg, app_state.clone()),
+                    msg::MessageKind::Pub => {
+                        pub_handler(msg.topic, t, who, app_state.clone()).await
+                    }
+                    msg::MessageKind::Sub => sub_handler(msg.topic, who, app_state.clone()).await,
                 }
             } else {
                 error!("from {} sent invalid message: {}", who, t)
@@ -135,17 +145,44 @@ fn process_message(msg: Message, who: SocketAddr, app_state: Arc<AppState>) -> C
     ControlFlow::Continue(())
 }
 
-fn pub_handler(msg: msg::WalletMessage, app_state: Arc<AppState>) {
-    if let Ok(mut conn) = app_state.client.get_connection() {
-        let topic = msg.topic.clone();
-        if let Ok(1) = conn.lpush(topic.clone(), msg) {
-            info!("publish message to topic: {}", topic);
-        } else {
-            error!("failed to publish message to topic: {}", topic);
+async fn pub_handler(topic: String, msg: String, who: SocketAddr, app_state: Arc<AppState>) {
+    if let Some(whos) = app_state.get_sub(topic.clone()).await {
+        for who in whos {
+            app_state.send_message(who, msg.clone()).await;
         }
     } else {
-        error!("failed to get redis connection")
+        let mut conn = app_state.client.get_connection().unwrap();
+        if let Ok(()) = conn.lpush(topic.clone(), msg) {
+            info!("save topic {} success", topic.clone());
+        } else {
+            error!("save topic {} failed", topic.clone());
+        }
     }
 }
 
-fn sub_handler(msg: msg::WalletMessage, app_state: Arc<AppState>) {}
+async fn sub_handler(topic: String, who: SocketAddr, app_state: Arc<AppState>) {
+    app_state.save_sub(topic.clone(), who.to_string()).await;
+
+    let mut conn = app_state.client.get_connection().unwrap();
+    let mut cnt = 0;
+
+    loop {
+        let msg: Result<Vec<String>, redis::RedisError> = conn.lrange(topic.clone(), 0, -1);
+        if let Ok(msgs) = msg {
+            if let Ok(()) = conn.del(topic.clone()) {
+                info!("del topic {} success", topic.clone())
+            }
+            for msg in msgs {
+                app_state.send_message(who.to_string(), msg).await;
+                cnt += 1;
+            }
+            break;
+        } else {
+            break;
+        }
+    }
+    info!(
+        "from {} sub topic {} success, get {} messages",
+        who, topic, cnt
+    );
+}
