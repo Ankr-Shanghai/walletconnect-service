@@ -48,34 +48,34 @@ impl AppState {
         }
     }
 
-    pub async fn save_sub(&self, topic: String, who: String) {
+    pub async fn save_sub(&self, topic: &str, who: &str) {
         let mut sub = self.sub.lock().await;
-        if let Some(whos) = sub.get_mut(&topic) {
-            whos.push(who.clone());
+        if let Some(whos) = sub.get_mut(topic) {
+            whos.push(who.to_string());
         } else {
-            sub.insert(topic.clone(), vec![who.clone()]);
+            sub.insert(topic.to_string(), vec![who.to_string()]);
         }
 
         let mut topic_who = self.topic.lock().await;
-        if let Some(topics) = topic_who.get_mut(&who) {
-            topics.push(topic);
+        if let Some(topics) = topic_who.get_mut(who) {
+            topics.push(topic.to_string());
         } else {
-            topic_who.insert(who, vec![topic]);
+            topic_who.insert(who.to_string(), vec![topic.to_string()]);
         }
     }
 
-    pub async fn get_sub(&self, topic: String) -> Option<Vec<String>> {
+    pub async fn get_sub(&self, topic: &str) -> Option<Vec<String>> {
         let sub = self.sub.lock().await;
-        if let Some(whos) = sub.get(&topic) {
+        if let Some(whos) = sub.get(topic) {
             Some(whos.clone())
         } else {
             None
         }
     }
 
-    pub async fn remove_sub(&self, who: String) {
+    pub async fn remove_sub(&self, who: &str) {
         let mut topic_who = self.topic.lock().await;
-        if let Some(topics) = topic_who.get_mut(&who) {
+        if let Some(topics) = topic_who.get_mut(who) {
             for topic in topics.iter() {
                 let mut sub = self.sub.lock().await;
                 if let Some(whos) = sub.get_mut(topic) {

@@ -94,7 +94,7 @@ async fn handle_socket(mut socket: WebSocket, who: SocketAddr, app_state: Arc<Ap
     }
 
     app_state.remove_send_channel(who.to_string()).await;
-    app_state.remove_sub(who.to_string()).await;
+    app_state.remove_sub(who.to_string().as_str()).await;
 
     info!("remote connect {} destroyed", who);
 }
@@ -113,9 +113,9 @@ async fn process_message(
             if let Ok(msg) = msgt {
                 match msg.kind {
                     msg::MessageKind::Pub => {
-                        pub_handler(msg.topic, t, who, app_state.clone()).await
+                        pub_handler(&msg.topic, t, who, app_state.clone()).await
                     }
-                    msg::MessageKind::Sub => sub_handler(msg.topic, who, app_state.clone()).await,
+                    msg::MessageKind::Sub => sub_handler(&msg.topic, who, app_state.clone()).await,
                 }
             } else {
                 error!("from {} sent invalid message: {}", who, t)
@@ -145,8 +145,8 @@ async fn process_message(
     ControlFlow::Continue(())
 }
 
-async fn pub_handler(topic: String, msg: String, who: SocketAddr, app_state: Arc<AppState>) {
-    if let Some(whos) = app_state.get_sub(topic.clone()).await {
+async fn pub_handler(topic: &str, msg: String, who: SocketAddr, app_state: Arc<AppState>) {
+    if let Some(whos) = app_state.get_sub(topic).await {
         for who in whos {
             app_state.send_message(who, msg.clone()).await;
         }
@@ -160,8 +160,8 @@ async fn pub_handler(topic: String, msg: String, who: SocketAddr, app_state: Arc
     }
 }
 
-async fn sub_handler(topic: String, who: SocketAddr, app_state: Arc<AppState>) {
-    app_state.save_sub(topic.clone(), who.to_string()).await;
+async fn sub_handler(topic: &str, who: SocketAddr, app_state: Arc<AppState>) {
+    app_state.save_sub(topic, who.to_string().as_str()).await;
 
     let mut conn = app_state.client.get_connection().unwrap();
     let mut cnt = 0;
