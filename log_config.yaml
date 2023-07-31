@@ -22,4 +22,5 @@ root:
   level: info
   appenders:
     - stdout
-    - requests
+    # disable by default
+    # - requests
